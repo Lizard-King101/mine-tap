@@ -1,0 +1,15 @@
+<div class="game-area">
+    <div class="blocks">
+        <span class="black"></span>
+        <div class="block-wall top"></div>
+        <div class="block-wall right"></div>
+        <div class="block-wall bottom"></div>
+        <div class="block-wall left"></div>
+    </div>
+    <div class="blocks-container">
+        <block *ngFor="let block of level.getTopBlocks; index as i" [block]="block" [index]="i"></block>
+    </div>
+</div>
+<div class="menu">
+
+</div>

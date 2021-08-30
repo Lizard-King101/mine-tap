@@ -1,0 +1,3 @@
+<div (click)="onDamage()" [ngStyle]="{'background-image': block.texture ? 'url(`assets/textures/blocks/` + block.texture)' : ''}">
+    {{ block? block.damagePercent : '0' }}
+</div>
