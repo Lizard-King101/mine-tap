@@ -1,0 +1,7 @@
+{
+  "name": "mine-tap",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
