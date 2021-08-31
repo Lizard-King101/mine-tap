@@ -285,7 +285,7 @@ export interface Item {
         x: number;
         y: number;
     }
-    type: 'block'| 'tool';
+    type: 'block'| 'tool' | 'item';
     amount?: number;
     stackable?: number;
     name: string;

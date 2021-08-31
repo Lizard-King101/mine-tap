@@ -120,6 +120,19 @@ export const items: {
         stackable: 64,
         icon: 'blocks/iron_ore.webp'
     },
+    'iron_ingot': {
+        name: 'Iron Ingot',
+        type: 'item',
+        size: {
+            x: 1,
+            y: 1
+        },
+        attributes: {},
+        lore: '',
+        amount: 0,
+        stackable: 64,
+        icon: 'items/iron_ingot.webp'
+    },
     'coal_ore': {
         name: 'Coal Ore',
         type: 'block',
@@ -132,6 +145,19 @@ export const items: {
         amount: 0,
         stackable: 64,
         icon: 'blocks/coal_ore.webp'
+    },
+    'coal': {
+        name: 'Coal',
+        type: 'item',
+        size: {
+            x: 1,
+            y: 1
+        },
+        attributes: {},
+        lore: '',
+        amount: 0,
+        stackable: 64,
+        icon: 'items/coal.webp'
     },
     'obsidian': {
         name: 'Obsidian',
