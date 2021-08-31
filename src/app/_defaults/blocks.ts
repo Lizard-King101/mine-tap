@@ -1,64 +1,83 @@
 import { BlockOptions } from "../_objects/block";
 
-export const blocks: {[key: string]: BlockOptions; } = {
+export const blocks: {
+    [key: string]: BlockOptions; 
+} = {
     'grass': {
-        name: 'Grass',
+        label: 'Grass',
+        name: 'grass',
         health: 50,
         rarity: 80,
         texture: 'grass_top.jpg'
     },
     'dirt': {
-        name: 'Dirt',
+        label: 'Dirt',
+        name: 'dirt',
         health: 50,
         rarity: 80,
         texture: 'dirt.webp'
     },
     'oak_log': {
-        name: 'Oak Log',
+        label: 'Oak Log',
+        name: 'oak_log',
         health: 25,
         rarity: 85,
         texture: 'oak_log.webp'
     },
     'gravel': {
-        name: 'Gravel',
+        label: 'Gravel',
+        name: 'gravel',
         health: 50,
         rarity: 80,
         texture: 'gravel.webp'
     },
     'clay': {
-        name: 'Clay',
+        label: 'Clay',
+        name: 'clay',
         health: 50,
         rarity: 80,
         texture: 'clay.webp'
     },
     'granite': {
-        name: 'Granite',
+        label: 'Granite',
+        name: 'granite',
         health: 50,
         rarity: 80,
         texture: 'granite.webp'
     },
     'andesite': {
-        name: 'Andesite',
+        label: 'Andesite',
+        name: 'andesite',
         health: 50,
         rarity: 80,
         texture: 'andesite.webp'
     },
     'stone': {
-        name: 'Stone',
+        label: 'Stone',
+        name: 'stone',
         health: 100,
         rarity: 80,
         texture: 'stone.webp'
     },
     'iron_ore': {
-        name: 'Iron Ore',
+        label: 'Iron Ore',
+        name: 'iron_ore',
         health: 200,
         rarity: 50,
         texture: 'iron_ore.webp'
     },
     'coal_ore': {
-        name: 'Coal Ore',
+        label: 'Coal Ore',
+        name: 'coal_ore',
         health: 100,
         rarity: 80,
         texture: 'coal_ore.webp'
     },
+    'obsidian': {
+        label: 'Obsidian',
+        name: 'obsidian',
+        health: 1000,
+        rarity: 40,
+        texture: 'obsidian.webp'
+    }
 }

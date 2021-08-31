@@ -1,4 +1,4 @@
-<div class="game-area" [ngStyle]="{'background-image': level.floorTexture}">
+<div class="game-area" [ngStyle]="{'background-image': level.floorTexture}" #gameArea>
     <div class="blocks">
         <span class="black" [ngStyle]="{'background-image': level.floorTexture}"></span>
         <div class="block-wall top" [ngStyle]="{'background-image': level.wallTexture}"></div>
@@ -7,11 +7,14 @@
         <div class="block-wall left" [ngStyle]="{'background-image': level.wallTexture}"></div>
     </div>
     <div class="blocks-container">
-        <block *ngFor="let block of level.getTopBlocks; index as i" [block]="block" [index]="i"></block>
+        <block #block *ngFor="let block of level.getTopBlocks; index as i" [block]="block" [index]="i"></block>
     </div>
 </div>
 <div class="menu">
-    <p>Level: {{ level.name }}</p>
-    <p>Blocks Broken: {{ level.brokenBlocks }}</p>
-    <p>Current Block: {{ level.getTopBlocks.length ? level.getTopBlocks[0].name : '' }}</p>
+    <div class="info">
+        <p>Level: {{ level.name }}</p>
+        <p>Blocks Broken: {{ level.brokenBlocks }}</p>
+        <p>Current Block: {{ level.getTopBlocks.length ? level.getTopBlocks[0].label : '' }}</p>
+    </div>
+    <inventory id="stash"></inventory>
 </div>

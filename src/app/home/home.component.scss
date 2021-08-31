@@ -93,5 +93,11 @@
 
     .menu {
         flex: 1 0 0px;
+
+        .info {
+            p {
+                margin: 0;
+            }
+        }
     }
 }

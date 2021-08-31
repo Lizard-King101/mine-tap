@@ -62,15 +62,12 @@ export class BlockComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.block, this.index);
-        console.log(this.blockTexture);
-        
+        // console.log(this.block, this.index);
+        // console.log(this.blockTexture);
     }
 
-    onDamage(ev: Event) {
-        console.log('DAMAGE');
-        
-        ev.stopPropagation();
-        this.block?.damage(20);
+    onDamage(ev?: Event) {
+        if(ev) ev.stopPropagation();
+        this.block?.damage(200);
     }
 }

@@ -8,6 +8,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LevelService } from './_services/level.service';
+import { Inventories } from './_services/Inventories';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { LevelService } from './_services/level.service';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    LevelService
+    LevelService,
+    Inventories
   ],
   bootstrap: [
     AppComponent

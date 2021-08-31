@@ -1,6 +1,10 @@
+import { Inventory } from "../_components/inventory/inventory";
+import { Item } from "../_components/item/item";
 import { blocks } from "../_defaults/blocks";
+import { items } from "../_defaults/items";
+import { Inventories } from "../_services/Inventories";
 import { LevelService } from "../_services/level.service";
-import { Block, BlockOptions } from "./block";
+import { Block } from "./block";
 
 export class Level {
     name: string;
@@ -19,7 +23,7 @@ export class Level {
         else return this.floor_texture;
     }
  
-    constructor(private options: LevelOptions, private parent: LevelService) {
+    constructor(private options: LevelOptions, private parent: LevelService, private inventories: Inventories) {
         this.name = options.name;
         this.depth = options.depth;
 
@@ -30,7 +34,7 @@ export class Level {
         }
     }
 
-    destroyBlock(block: Block) {
+    async destroyBlock(block: Block) {
         for(let i = 0; i < this.blocks.length; i++) { 
             let b = this.blocks[i];
             if(b == block) {
@@ -39,10 +43,26 @@ export class Level {
                 } else {
                     this.blocks.splice(i, 1);
                 }
-                console.log(this.blocks);
+                // console.log(this.blocks);
+                let inventory = await this.inventories.getInventory('stash').then((inventory?: Inventory) => {
+                    if(inventory) {
+                        if(block.drops) {
+                            console.log('MAKE DROPS');
+                            
+                        } else {
+                            if(items[block.name]) {
+                                let item = items[block.name];
+                                if(item.stackable) item.amount = 1;
+                                inventory.addItem(item);
+                            } else {
+                                console.log('Item not found');
+                                
+                            }
+                        }
+                    }
+                })
                 this.blocks_broken ++;
-                if(!this.blocks.length) this.parent.nextLevel()
-                
+                if(!this.blocks.length) this.parent.nextLevel();
                 return;
             }
         }

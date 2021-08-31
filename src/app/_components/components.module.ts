@@ -4,9 +4,13 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BlockComponent } from "./block/block.component";
+import { Inventory } from "./inventory/inventory";
+import { ItemComponent } from "./item/item";
 
 const Components = [
-    BlockComponent
+    BlockComponent,
+    Inventory,
+    ItemComponent
 ];
 
 @NgModule({

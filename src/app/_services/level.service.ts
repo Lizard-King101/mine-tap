@@ -3,6 +3,7 @@ import { Block } from "../_objects/block";
 import { Level } from "../_objects/level";
 
 import { levels } from "../_defaults/levels";
+import { Inventories } from "./Inventories";
 
 @Injectable()
 export class LevelService {
@@ -38,8 +39,8 @@ export class LevelService {
         else return '';
     }
 
-    constructor() {
-        this.level = new Level(levels[this.currentLevel], this);
+    constructor(private inventories: Inventories) {
+        this.level = new Level(levels[this.currentLevel], this, this.inventories);
 
         console.log(this.level);
         
@@ -48,7 +49,7 @@ export class LevelService {
     nextLevel() {
         if(levels[this.currentLevel + 1]) {
             if(this.level) this.lastBrokenBlocks += this.level.blocks_broken;
-            this.level = new Level(levels[this.currentLevel + 1], this);
+            this.level = new Level(levels[this.currentLevel + 1], this, this.inventories);
             this.currentLevel++;
         }
     }
