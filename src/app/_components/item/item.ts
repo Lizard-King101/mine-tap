@@ -37,7 +37,7 @@ export class ItemComponent implements OnInit {
         } else return 0;
     }
 
-    @Input() inventoryId: any;
+    @Input() inventoryId?: string;
     @Input() item?: Item;
     @HostBinding('style.width') width?: string;
     @HostBinding('style.height') height?: string;
@@ -52,17 +52,22 @@ export class ItemComponent implements OnInit {
     }
 
     @HostListener('dragstart', ['$event']) onDrag(ev: DragEvent){
-        console.log('drag start');
+        console.log('drag start', ev);
+
         // starting event listener defines starting info
         if(!this.item) return false;
         if(ev.dataTransfer) {
             let item = this.item;
             this.inventories.pickedSize = item.size;
+
+            let layerX = <number>(<any>ev).layerX;
+            let layery = <number>(<any>ev).layerY;
             // calculate what cell the item was picked up at
             this.inventories.pickedUp = {
-                x: Math.floor(ev.offsetX / (this.inventories.getSize(item.size.x) / item.size.x)),
-                y: Math.floor(ev.offsetY / (this.inventories.getSize(item.size.y) / item.size.y))
+                x: Math.floor(layerX / (this.inventories.getSize(item.size.x) / item.size.x)),
+                y: Math.floor(layery / (this.inventories.getSize(item.size.y) / item.size.y))
             }
+            
             this.inventories.item = this.item;
             // set drag image and data transfer 
             // if(this.image){
@@ -76,7 +81,7 @@ export class ItemComponent implements OnInit {
             //     ev.dataTransfer.setDragImage(this.image.nativeElement, ev.offsetX, ev.offsetY);
             // }
             ev.dataTransfer.setData('item', JSON.stringify(item));
-            ev.dataTransfer.setData('inventory', this.inventoryId);
+            if(this.inventoryId) ev.dataTransfer.setData('inventory', this.inventoryId);
             // clear items cells to allow for placing over old cells it took up
             for(let x = 0; x < item.size.x; x ++) {
                 for(let y = 0; y < item.size.y; y ++){
@@ -199,6 +204,7 @@ export class ItemComponent implements OnInit {
             this.width = this.inventories.getSize(this.item.size.x) + 'px';
             this.height = this.inventories.getSize(this.item.size.y) + 'px';
             let item = this.item;
+            if(this.inventoryId)
             this.inventories.getInventory(this.inventoryId).then((inventory?: Inventory)=>{
                 if(inventory) {
                     this.inventory = inventory;
