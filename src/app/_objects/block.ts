@@ -7,7 +7,7 @@ export class Block {
     texture: string;
 
     get getDamagePercent(): number {
-        return this.healthLeft / this.health;
+        return 1 - this.healthLeft / this.health;
     }
 
     constructor(options: BlockOptions, private level: Level) {
@@ -18,6 +18,8 @@ export class Block {
     }
 
     damage(amount: number) {
+        console.log('DAMAGE');
+        
         this.healthLeft -= amount;
         if(this.healthLeft <= 0) this.level.destroyBlock(this);
     }

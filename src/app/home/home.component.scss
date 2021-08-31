@@ -10,7 +10,7 @@
         flex: 0 0 0px;
         background-image: url('../../assets/textures/blocks/grass_top.jpg');
         background-size: 70%;
-        background-position: center center;
+        background-position: 50.1%;
         background-repeat: repeat;
 
         .blocks {
@@ -19,8 +19,8 @@
             // height: 200px;
             padding-bottom: 70%;
 
-            top: 50%;
-            left: 50%;
+            top: 50.1%;
+            left: 50.2%;
             transform: translate(-50%, -50%) perspective(calc(70vw));
             transform-style: preserve-3d;
 
@@ -41,13 +41,13 @@
                 position: absolute;
                 width: 100.1%;
                 height: 100.1%;
+                background-image: url('../../assets/textures/blocks/grass.webp');
                 
                 &.top {
                     top: -50%;
                     left: 0;
                     transform-origin: center;
                     transform: rotate3d(-1, 0, 0, 90deg) rotate(0deg) translateY(calc(50%));
-                    background-image: url('../../assets/textures/blocks/grass.webp');
                     background-size: cover;
                     // background-color: red;
                 }
@@ -57,9 +57,8 @@
                     right: -50%;
                     transform-origin: center;
                     transform: rotate3d(0, -1, 0, 90deg) rotate(90deg) translateY(calc(50%));
-                    background-image: url('../../assets/textures/blocks/grass.webp');
                     background-size: cover;
-                    background-color: blue;
+                    // background-color: blue;
                 }
 
                 &.bottom {
@@ -67,9 +66,8 @@
                     bottom: -50%;
                     transform-origin: center;
                     transform:  rotate3d(1, 0, 0, 90deg) rotate(180deg) translateY(calc(50%));
-                    background-image: url('../../assets/textures/blocks/grass.webp');
                     background-size: cover;
-                    background-color: green;
+                    // background-color: green;
                 }
 
                 &.left {
@@ -77,9 +75,8 @@
                     left: -50%;
                     transform-origin: center;
                     transform: rotate3d(0, -1, 0, 90deg) rotate(90deg) translateY(calc(50%));
-                    background-image: url('../../assets/textures/blocks/grass.webp');
                     background-size: cover;
-                    background-color: yellow;
+                    // background-color: yellow;
                 }
             }
         }

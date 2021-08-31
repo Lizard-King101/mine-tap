@@ -1,3 +1,5 @@
-<div (click)="onDamage()" [ngStyle]="{'background-image': block.texture ? 'url(`assets/textures/blocks/` + block.texture)' : ''}">
-    {{ block? block.damagePercent : '0' }}
+<div class="block" [@blockIndex]="index" (click)="onDamage($event)" [ngStyle]="blockStyle">
+    <div class="data">
+        <!-- {{ block?.getDamagePercent }} % -->
+    </div>
 </div>
