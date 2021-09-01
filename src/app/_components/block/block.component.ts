@@ -68,6 +68,6 @@ export class BlockComponent implements OnInit {
 
     onDamage(ev?: Event) {
         if(ev) ev.stopPropagation();
-        this.block?.damage(200);
+        this.block?.damage(10);
     }
 }

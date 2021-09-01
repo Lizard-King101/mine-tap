@@ -5,6 +5,7 @@ import { items } from "../_defaults/items";
 import { Inventories } from "../_services/Inventories";
 import { LevelService } from "../_services/level.service";
 import { Block } from "./block";
+import { helpers } from "./helpers";
 
 export class Level {
     name: string;
@@ -48,7 +49,21 @@ export class Level {
                     if(inventory) {
                         if(block.drops) {
                             console.log('MAKE DROPS');
-                            
+                            if(typeof block.drops.items == 'string') {
+                                // single item or stack
+                                if(items[block.drops.items]) {
+                                    let item = Object.assign({}, items[block.drops.items]);
+                                    if(block.drops.amount && item.stackable) {
+                                        item.amount = Math.floor(helpers.gaussianRandom() * (block.drops.amount.max - block.drops.amount.min)) + block.drops.amount.min;
+                                    }
+                                    inventory.addItem(item);
+                                } else {
+                                    console.log('ITEM NOT FOUND');
+                                }
+                            } else {
+                                // multiple items
+
+                            }
                         } else {
                             if(items[block.name]) {
                                 let item = items[block.name];

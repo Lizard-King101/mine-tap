@@ -183,8 +183,9 @@ export class Inventory implements AfterViewInit{
             console.log('NO STACK', item);
             
             this.items.push(item);
-            this.reCalc();
         }
+        this.reCalc();
+        this.save();
     }
 
     stackItem(item: Item) {
@@ -217,8 +218,18 @@ export class Inventory implements AfterViewInit{
                 
             } else {
                 // console.log('Push new item');
-                this.items.push(Object.assign({}, item));
-                this.reCalc();
+                if(item.amount < item.stackable) {
+                    this.items.push(Object.assign({}, item));
+                    this.reCalc();
+                } else {
+                    let newItem = Object.assign({}, item);
+                    newItem.amount = item.stackable;
+                    let passItem = Object.assign({}, item);
+                    passItem.amount = item.amount - item.stackable;
+
+                    this.items.push(newItem);
+                    this.stackItem(passItem);
+                }
             }
         }
     }

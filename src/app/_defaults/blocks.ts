@@ -71,7 +71,14 @@ export const blocks: {
         name: 'coal_ore',
         health: 100,
         rarity: 80,
-        texture: 'coal_ore.webp'
+        texture: 'coal_ore.webp',
+        drops: {
+            items: 'coal',
+            amount: {
+                min: 4,
+                max: 12
+            }
+        }
     },
     'obsidian': {
         label: 'Obsidian',

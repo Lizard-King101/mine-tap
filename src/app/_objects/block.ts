@@ -5,7 +5,7 @@ export class Block {
     health: number;
     healthLeft: number;
     texture: string;
-    drops?: Drops[];
+    drops?: Drops;
 
     get getDamagePercent(): number {
         return 1 - this.healthLeft / this.health;
@@ -30,12 +30,11 @@ export interface BlockOptions {
     health: number;
     rarity: number;
     texture: string;
-    drops?: Drops[];
+    drops?: Drops;
 }
 
 interface Drops {
-    items: string;
-    min: number;
+    items: string | ItemDrop[];
     amount?: {
         min: number;
         max: number;

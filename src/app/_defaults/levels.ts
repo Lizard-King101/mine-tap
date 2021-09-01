@@ -3,7 +3,7 @@ import { LevelOptions } from "../_objects/level";
 export const levels: LevelOptions[] = [
     {
         name: 'Plains',
-        depth: 1000,
+        depth: 100,
         wall_texture: 'grass.webp',
         floor_texture: 'grass_top.jpg',
         blocks: [

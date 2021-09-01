@@ -1,103 +1,166 @@
 :host {
-    background-color: white;
+    height: 100vh;
+    width: 100vw;
     display: flex;
-    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
 
-    .game-area {
-        width: 100%;
-        padding-bottom: 100%;
-        position: relative;
-        flex: 0 0 0px;
-        background-image: url('../../assets/textures/blocks/grass_top.jpg');
-        background-size: 70%;
-        background-position: 50.1%;
-        background-repeat: repeat;
+    .pages {
+        flex: 1 0 0px;
+        
+        .page-slide {
+            height: 100%;
+            white-space: nowrap;
+            position: relative;
 
-        .blocks {
-            position: absolute;
-            width: 70%;
-            // height: 200px;
-            padding-bottom: 70%;
+            .page {
+                display: inline-block;
+                height: 100%;
+                width: 100vw;
 
-            top: 50.1%;
-            left: 50.2%;
-            transform: translate(-50%, -50%) perspective(calc(70vw));
-            transform-style: preserve-3d;
+                .page-container {
+                    height: 100%;
+                    width: 100%;
+                    display: inline-block;
+                }
 
-            span.black {
-                display: block;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 50%;
-                height: 50%;
-                background-image: url('../../assets/textures/blocks/grass_top.jpg');
-                background-size: cover;
-                z-index: -1;
-                transform: translate(-50%, -50%);
+                &.inventory {
+                    .page-container {
+                        position: relative;
+                        overflow: hidden;
+                        display: flex;
+                        flex-direction: column;
+                        
+                        inventory {
+                            flex: 1 0 0px;
+                        }
+                    }
+                }
+
+                &.mining {
+                    .page-container {
+                        background-color: white;
+                        display: flex !important;
+                        flex-direction: column;
+                        height: 100%;
+            
+                        .game-area {
+                            width: 100%;
+                            padding-bottom: 100%;
+                            position: relative;
+                            flex: 0 0 0px;
+                            background-image: url('../../assets/textures/blocks/grass_top.jpg');
+                            background-size: 70%;
+                            background-position: 50.1%;
+                            background-repeat: repeat;
+                    
+                            .blocks {
+                                position: absolute;
+                                width: 70%;
+                                // height: 200px;
+                                padding-bottom: 70%;
+                    
+                                top: 50.1%;
+                                left: 50.2%;
+                                transform: translate(-50%, -50%) perspective(calc(70vw));
+                                transform-style: preserve-3d;
+                    
+                                span.black {
+                                    display: block;
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    width: 50%;
+                                    height: 50%;
+                                    background-image: url('../../assets/textures/blocks/grass_top.jpg');
+                                    background-size: cover;
+                                    z-index: -1;
+                                    transform: translate(-50%, -50%);
+                                }
+                    
+                                .block-wall {
+                                    position: absolute;
+                                    width: 100.1%;
+                                    height: 100.1%;
+                                    background-image: url('../../assets/textures/blocks/grass.webp');
+                                    
+                                    &.top {
+                                        top: -50%;
+                                        left: 0;
+                                        transform-origin: center;
+                                        transform: rotate3d(-1, 0, 0, 90deg) rotate(0deg) translateY(calc(50%));
+                                        background-size: cover;
+                                        // background-color: red;
+                                    }
+                    
+                                    &.right {
+                                        top: 0;
+                                        right: -50%;
+                                        transform-origin: center;
+                                        transform: rotate3d(0, -1, 0, 90deg) rotate(90deg) translateY(calc(50%));
+                                        background-size: cover;
+                                        // background-color: blue;
+                                    }
+                    
+                                    &.bottom {
+                                        left: 0;
+                                        bottom: -50%;
+                                        transform-origin: center;
+                                        transform:  rotate3d(1, 0, 0, 90deg) rotate(180deg) translateY(calc(50%));
+                                        background-size: cover;
+                                        // background-color: green;
+                                    }
+                    
+                                    &.left {
+                                        top: 0;
+                                        left: -50%;
+                                        transform-origin: center;
+                                        transform: rotate3d(0, -1, 0, 90deg) rotate(90deg) translateY(calc(50%));
+                                        background-size: cover;
+                                        // background-color: yellow;
+                                    }
+                                }
+                            }
+                    
+                            .blocks-container {
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                width: 70%;
+                                padding-bottom: 70%;
+                                transform: translate(-50%, -50%);
+                            }
+                        }
+                    
+                        .info {
+                            flex: 1 0 0px;
+                            display: flex;
+                            flex-direction: column;
+                    
+                            .info {
+                                p {
+                                    margin: 0;
+                                }
+                            }
+                        }
+                    }
+                }
             }
-
-            .block-wall {
-                position: absolute;
-                width: 100.1%;
-                height: 100.1%;
-                background-image: url('../../assets/textures/blocks/grass.webp');
-                
-                &.top {
-                    top: -50%;
-                    left: 0;
-                    transform-origin: center;
-                    transform: rotate3d(-1, 0, 0, 90deg) rotate(0deg) translateY(calc(50%));
-                    background-size: cover;
-                    // background-color: red;
-                }
-
-                &.right {
-                    top: 0;
-                    right: -50%;
-                    transform-origin: center;
-                    transform: rotate3d(0, -1, 0, 90deg) rotate(90deg) translateY(calc(50%));
-                    background-size: cover;
-                    // background-color: blue;
-                }
-
-                &.bottom {
-                    left: 0;
-                    bottom: -50%;
-                    transform-origin: center;
-                    transform:  rotate3d(1, 0, 0, 90deg) rotate(180deg) translateY(calc(50%));
-                    background-size: cover;
-                    // background-color: green;
-                }
-
-                &.left {
-                    top: 0;
-                    left: -50%;
-                    transform-origin: center;
-                    transform: rotate3d(0, -1, 0, 90deg) rotate(90deg) translateY(calc(50%));
-                    background-size: cover;
-                    // background-color: yellow;
-                }
-            }
-        }
-
-        .blocks-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 70%;
-            padding-bottom: 70%;
-            transform: translate(-50%, -50%);
         }
     }
 
-    .menu {
-        flex: 1 0 0px;
+    .tabs {
+        display: flex;
+        flex-direction: row;
 
-        .info {
-            p {
-                margin: 0;
-            }
+        .tab {
+            display: flex;
+            padding: 10px;
+            width: 33.33%;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
         }
     }
 }

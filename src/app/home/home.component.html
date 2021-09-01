@@ -1,20 +1,49 @@
-<div class="game-area" [ngStyle]="{'background-image': level.floorTexture}" #gameArea>
-    <div class="blocks">
-        <span class="black" [ngStyle]="{'background-image': level.floorTexture}"></span>
-        <div class="block-wall top" [ngStyle]="{'background-image': level.wallTexture}"></div>
-        <div class="block-wall right" [ngStyle]="{'background-image': level.wallTexture}"></div>
-        <div class="block-wall bottom" [ngStyle]="{'background-image': level.wallTexture}"></div>
-        <div class="block-wall left" [ngStyle]="{'background-image': level.wallTexture}"></div>
-    </div>
-    <div class="blocks-container">
-        <block #block *ngFor="let block of level.getTopBlocks; index as i" [block]="block" [index]="i"></block>
+<div class="pages">
+    <div class="page-slide" [@activePage]="tab">
+        <div class="page shop">
+            <h1>Shop</h1>
+        </div>
+        <div class="page mining">
+            <div class="page-container">
+                <h1>Mine</h1>
+                <div class="info">
+                    <div class="info">
+                        <p>Level: {{ level.name }}</p>
+                        <p>Blocks Broken: {{ level.brokenBlocks }}</p>
+                        <p>Current Block: {{ level.getTopBlocks.length ? level.getTopBlocks[0].label : '' }}</p>
+                    </div>
+                    
+                </div>
+                <div class="game-area" [ngStyle]="{'background-image': level.floorTexture}" #gameArea>
+                    <div class="blocks">
+                        <span class="black" [ngStyle]="{'background-image': level.floorTexture}"></span>
+                        <div class="block-wall top" [ngStyle]="{'background-image': level.wallTexture}"></div>
+                        <div class="block-wall right" [ngStyle]="{'background-image': level.wallTexture}"></div>
+                        <div class="block-wall bottom" [ngStyle]="{'background-image': level.wallTexture}"></div>
+                        <div class="block-wall left" [ngStyle]="{'background-image': level.wallTexture}"></div>
+                    </div>
+                    <div class="blocks-container">
+                        <block #block *ngFor="let block of level.getTopBlocks; index as i" [block]="block" [index]="i"></block>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page inventory">
+            <div class="page-container">
+                <h1>Inventory</h1>
+                <inventory id="stash"></inventory>
+            </div>
+        </div>
     </div>
 </div>
-<div class="menu">
-    <div class="info">
-        <p>Level: {{ level.name }}</p>
-        <p>Blocks Broken: {{ level.brokenBlocks }}</p>
-        <p>Current Block: {{ level.getTopBlocks.length ? level.getTopBlocks[0].label : '' }}</p>
+<div class="tabs">
+    <div class="tab" (click)="selectTab('shop')">
+        Shop
     </div>
-    <inventory id="stash"></inventory>
+    <div class="tab" (click)="selectTab('mine')">
+        Mine
+    </div>
+    <div class="tab" (click)="selectTab('inventory')">
+        Inventory
+    </div>
 </div>
