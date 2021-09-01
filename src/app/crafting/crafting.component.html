@@ -1,0 +1,37 @@
+
+
+
+<div class="crafting-area">
+    <a routerLink="/" class="btn">Back</a>
+    <h1>Crafting</h1>
+
+    <div class="crafting-group">
+        <div class="inv-grid" *ngIf="craftingInventory">
+            <div class="row" *ngFor="let row of craftingInventory.cells; let r = index;">
+                <div class="cell"
+                    *ngFor="let cell of row; let c = index;" 
+                    (dragover)="onDragOver($event, c, r)" 
+                    (drop)="onDrop($event, c, r)">
+                    <ng-container *ngIf="cell && cell !== 'filled'">
+                        <item [item]="cell" [inventory]="craftingInventory" draggable="true"></item>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <div class="inv-grid" *ngIf="craftedInventory">
+            <div class="row" *ngFor="let row of craftedInventory.cells; let r = index;">
+                <div class="cell"
+                    *ngFor="let cell of row; let c = index;">
+                    <ng-container *ngIf="cell && cell !== 'filled'">
+                        <item [item]="cell" [inventory]="craftingInventory" draggable="true"></item>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="inventory">
+    <inventory id="stash"></inventory>
+</div>

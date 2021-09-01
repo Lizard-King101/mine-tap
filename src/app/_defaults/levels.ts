@@ -10,7 +10,8 @@ export const levels: LevelOptions[] = [
             'grass',
             'dirt',
             'oak_log',
-            'gravel'
+            'gravel',
+            'clay_block'
         ]
     },
     {

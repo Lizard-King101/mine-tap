@@ -13,6 +13,24 @@
     `3,3:iron_ingot,iron_ingot,iron_ingot,blank,stick,blank`
 */
 
-export const recipies = {
+export const recipies: Recipies = {
+    '1,1:oak_log': {
+        item: 'oak_planks',
+        amount: 4
+    },
+    '2,2:clay,clay,clay,clay': {
+        item: 'clay_block',
+        amount: 1
+    },
+    '1,1:clay_block': {
+        item: 'clay',
+        amount: 4
+    }
+}
 
+export interface Recipies {
+    [key:string]: {
+        item: string;
+        amount: number;
+    }
 }

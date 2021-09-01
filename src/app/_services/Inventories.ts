@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
-import { Inventory } from "../_components/inventory/inventory";
+import { InventoryComponent } from "../_components/inventory/inventory";
 import { Item } from "../_components/item/item";
+import { Inventory, InventoryOptions } from "../_objects/inventory";
 
 @Injectable()
 export class Inventories {
     private list: {
-        [key:string]: Inventory
+        [key:string]: any
     } = {};
 
     public windows: string[] = [];
@@ -16,29 +17,31 @@ export class Inventories {
     pickedUp = {x: 0,y: 0};
     pickedSize = {x: 0,y: 0};
 
-    private inventories: any = {
+    private inventories: {
+        [key:string]: InventoryOptions
+    } = {
         stash: {
+            id: 'stash',
             label: 'Stash',
-            size: {
-                c: 7,
-                r: 64
-            },
-            items: [
-                
-            ]
+            columns: 7,
+            rows: 64,
+            items: []
         }
     }
 
-    constructor() { }
-
-    public getInventory(id: string): Promise<Inventory | undefined> {
-        return new Promise((res)=>{
-            if(this.list[id]) res(this.list[id]);
-            else res(undefined)
-        })
+    constructor() {
+        for(let [key, options] of Object.entries(this.inventories)) {
+            let inv = new Inventory(options, this);
+            this.list[key] = inv
+        }
     }
 
-    public submitInventory(inventory: Inventory) {
+    public getInventory(id: string): Inventory | undefined {
+        if(this.list[id]) return this.list[id];
+        else return undefined;
+    }
+
+    public submitInventory(inventory: any) {
         if(inventory.id)
         this.list[inventory.id] = inventory;
     }
@@ -52,15 +55,9 @@ export class Inventories {
     }
 
     public createInventory(options: InventoryOptions) {
-        this.inventories[options.id] = {
-                label: options.label,
-                size: {
-                    c: options.width,
-                    r: options.height
-                },
-                filters: options.filters,
-                items: []
-        }
+        let inv = new Inventory(options, this);
+        this.list[options.id ? options.id : this.getId()] = inv;
+        return inv;
     }
 
     public closeWindow(id: string) {
@@ -80,12 +77,4 @@ export class Inventories {
     getId () {
         return new Date().getTime().toString(36).substr(2,9)+Math.random() * 99999;
     }
-}
-
-export interface InventoryOptions {
-    id: string;
-    label: string;
-    width: number;
-    height: number;
-    filters?: string[];
 }

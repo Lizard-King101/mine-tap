@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    background-color: white;
 
     .pages {
         flex: 1 0 0px;
@@ -17,11 +18,13 @@
                 display: inline-block;
                 height: 100%;
                 width: 100vw;
+                vertical-align: top;
 
                 .page-container {
                     height: 100%;
                     width: 100%;
                     display: inline-block;
+                    white-space: initial;
                 }
 
                 &.inventory {
@@ -30,6 +33,7 @@
                         overflow: hidden;
                         display: flex;
                         flex-direction: column;
+                        
                         
                         inventory {
                             flex: 1 0 0px;
@@ -132,14 +136,51 @@
                             }
                         }
                     
-                        .info {
+                        .info { 
                             flex: 1 0 0px;
                             display: flex;
                             flex-direction: column;
                     
-                            .info {
-                                p {
-                                    margin: 0;
+                            
+
+                            .btns {
+                                // display: none;
+                                display: flex;
+                                flex-direction: column;
+                                flex: 1 0 0px;
+
+                                .btn-row {
+                                    flex: 1 0 0px;
+                                    display: flex;
+                                    flex-direction: row;
+                                    padding: 3px 0px;
+
+                                    &:first-child {
+                                        padding-top: 6px;
+                                    }
+
+                                    &:last-child {
+                                        padding-bottom: 6px;
+                                    }
+
+                                    a.btn {
+                                        flex: 1 0 0px;
+                                        margin: 0px 3px;
+                                        background-color: #cecece;
+                                        border: 2px solid black;
+                                        border-radius: 5px;
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+
+                                        &:first-child {
+                                            margin-left: 6px;
+                                        }
+
+                                        &:last-child {
+                                            margin-right: 6px;
+                                        }
+                                    }
                                 }
                             }
                         }

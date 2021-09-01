@@ -1,7 +1,7 @@
 import { Component, HostBinding, HostListener, Input, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Inventories } from "../../_services/Inventories";
-import { Inventory } from "../inventory/inventory";
+import { Inventory } from "src/app/_objects/inventory";
 
 @Component({
     selector: 'item',
@@ -21,7 +21,6 @@ import { Inventory } from "../inventory/inventory";
     ]
 })
 export class ItemComponent implements OnInit {
-    private inventory?: Inventory;
     private contextOpen: boolean = false;
     private contexts: Context[] = [];
     private contextPos = {
@@ -37,7 +36,7 @@ export class ItemComponent implements OnInit {
         } else return 0;
     }
 
-    @Input() inventoryId?: string;
+    @Input() inventory?: Inventory;
     @Input() item?: Item;
     @HostBinding('style.width') width?: string;
     @HostBinding('style.height') height?: string;
@@ -81,7 +80,13 @@ export class ItemComponent implements OnInit {
             //     ev.dataTransfer.setDragImage(this.image.nativeElement, ev.offsetX, ev.offsetY);
             // }
             ev.dataTransfer.setData('item', JSON.stringify(item));
-            if(this.inventoryId) ev.dataTransfer.setData('inventory', this.inventoryId);
+            
+            
+            if(this.inventory) { 
+                ev.dataTransfer.setData('inventory', this.inventory.id);
+                console.log('DRAG START INV ID', this.inventory.id);
+                
+            } 
             // clear items cells to allow for placing over old cells it took up
             for(let x = 0; x < item.size.x; x ++) {
                 for(let y = 0; y < item.size.y; y ++){
@@ -135,31 +140,29 @@ export class ItemComponent implements OnInit {
                 let b = this.item.amount;
     
                 // need to retreive inventory in case item came from another inventory
-                this.inventories.getInventory(ev.dataTransfer.getData('inventory')).then((inventory?: Inventory) => {
-                    // remove item from old inventory
-                    if(inventory && this.inventory && this.item && this.item.amount && item.amount) {
-                        if(item.id)
-                        inventory.removeItem(item.id);
-                        
-                        // if old item + new item more than stacking limit
-                        if(this.item && this.item.stackable && item.stackable && a && b && b + a > item.stackable){
-                            // set dropped on item to stack limit
-                            this.item.amount = item.stackable;
-                            item = JSON.parse(JSON.stringify(this.item));
-                            item.amount = b + a - this.item.stackable;
-        
-                            // delete dropped item position and id so new inventory can assign it a spot
-                            delete item.pos;
-                            delete item.id;
-        
-                            this.inventory.items.push(item);
-                            this.inventory.reCalc();
-                        }else{
-                            // simple set dropped on item to new amount
-                            this.item.amount += item.amount;
-                        }
+                let inventory = this.inventories.getInventory(ev.dataTransfer.getData('inventory'))
+                // remove item from old inventory
+                if(inventory && this.inventory && this.item && this.item.amount && item.amount) {
+                    if(item.id)
+                    inventory.removeItem(item.id);
+                    
+                    // if old item + new item more than stacking limit
+                    if(this.item && this.item.stackable && item.stackable && a && b && b + a > item.stackable){
+                        // set dropped on item to stack limit
+                        this.item.amount = item.stackable;
+                        item = JSON.parse(JSON.stringify(this.item));
+                        item.amount = b + a - this.item.stackable;
+    
+                        // delete dropped item position and id so new inventory can assign it a spot
+                        delete item.pos;
+                        delete item.id;
+    
+                        this.inventory.pushItem(item);
+                    }else{
+                        // simple set dropped on item to new amount
+                        this.item.amount += item.amount;
                     }
-                });
+                }
             }
         }
     }
@@ -200,20 +203,14 @@ export class ItemComponent implements OnInit {
     }
 
     ngOnInit() {
-        if(this.item) {
+        if(this.item && this.inventory) {
             this.width = this.inventories.getSize(this.item.size.x) + 'px';
             this.height = this.inventories.getSize(this.item.size.y) + 'px';
             let item = this.item;
-            if(this.inventoryId)
-            this.inventories.getInventory(this.inventoryId).then((inventory?: Inventory)=>{
-                if(inventory) {
-                    this.inventory = inventory;
-                }
-    
-                if(item.stackable) this.contexts.push({label: 'Split', action: this.onContextSplit.bind(this)});
-                if((['case', 'bag']).indexOf(item.type) >= 0) this.contexts.push({label: 'Open', action: this.onOpen.bind(this)});
-                this.contexts.push({label: 'Delete', action: this.onContextDelete.bind(this)});
-            })
+
+            if(item.stackable) this.contexts.push({label: 'Split', action: this.onContextSplit.bind(this)});
+            if((['case', 'bag']).indexOf(item.type) >= 0) this.contexts.push({label: 'Open', action: this.onOpen.bind(this)});
+            this.contexts.push({label: 'Delete', action: this.onContextDelete.bind(this)});
         }
     }
 
@@ -235,8 +232,7 @@ export class ItemComponent implements OnInit {
                 delete item.id;
                 delete item.pos;
                 this.item.amount = Math.floor(this.item.amount / 2);
-                this.inventory.items.push(item);
-                this.inventory.reCalc();
+                this.inventory.pushItem(item);
             } else {
                 console.log('No Space to Split');
             }
@@ -251,21 +247,20 @@ export class ItemComponent implements OnInit {
             let item = this.item;
             // check if inventory is open alread
             if(this.inventories.windows.indexOf(id) < 0){
-                this.inventories.getInventory(id).then((inventory?: Inventory)=>{
-                    // inventory exists just open otherwise create new empty inventory
-                    if(!inventory){
-                        this.inventories.saveInventory({
-                            label: item.name,
-                            size: {
-                                c: item.attributes.width,
-                                r: item.attributes.height
-                            },
-                            items: []
-                        }, id);
-                    }
-                    // push inventory to windows
-                    this.inventories.windows.push(id);
-                });
+                let inventory = this.inventories.getInventory(id)
+                // inventory exists just open otherwise create new empty inventory
+                if(!inventory){
+                    this.inventories.saveInventory({
+                        label: item.name,
+                        size: {
+                            c: item.attributes.width,
+                            r: item.attributes.height
+                        },
+                        items: []
+                    }, id);
+                }
+                // push inventory to windows
+                this.inventories.windows.push(id);
             }
         }
     }
@@ -289,6 +284,7 @@ export interface Item {
     amount?: number;
     stackable?: number;
     name: string;
+    label: string;
     attributes: Attributes;
     context?: Context[];
     lore: string;

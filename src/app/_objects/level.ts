@@ -1,5 +1,3 @@
-import { Inventory } from "../_components/inventory/inventory";
-import { Item } from "../_components/item/item";
 import { blocks } from "../_defaults/blocks";
 import { items } from "../_defaults/items";
 import { Inventories } from "../_services/Inventories";
@@ -45,37 +43,37 @@ export class Level {
                     this.blocks.splice(i, 1);
                 }
                 // console.log(this.blocks);
-                let inventory = await this.inventories.getInventory('stash').then((inventory?: Inventory) => {
-                    if(inventory) {
-                        if(block.drops) {
-                            console.log('MAKE DROPS');
-                            if(typeof block.drops.items == 'string') {
-                                // single item or stack
-                                if(items[block.drops.items]) {
-                                    let item = Object.assign({}, items[block.drops.items]);
-                                    if(block.drops.amount && item.stackable) {
-                                        item.amount = Math.floor(helpers.gaussianRandom() * (block.drops.amount.max - block.drops.amount.min)) + block.drops.amount.min;
-                                    }
-                                    inventory.addItem(item);
-                                } else {
-                                    console.log('ITEM NOT FOUND');
-                                }
-                            } else {
-                                // multiple items
+                let inventory = this.inventories.getInventory('stash')
 
-                            }
-                        } else {
-                            if(items[block.name]) {
-                                let item = items[block.name];
-                                if(item.stackable) item.amount = 1;
+                if(inventory) {
+                    if(block.drops) {
+                        console.log('MAKE DROPS');
+                        if(typeof block.drops.items == 'string') {
+                            // single item or stack
+                            if(items[block.drops.items]) {
+                                let item = Object.assign({}, items[block.drops.items]);
+                                if(block.drops.amount && item.stackable) {
+                                    item.amount = Math.floor(helpers.gaussianRandom() * (block.drops.amount.max - block.drops.amount.min)) + block.drops.amount.min;
+                                }
                                 inventory.addItem(item);
                             } else {
-                                console.log('Item not found');
-                                
+                                console.log('ITEM NOT FOUND');
                             }
+                        } else {
+                            // multiple items
+
+                        }
+                    } else {
+                        if(items[block.name]) {
+                            let item = items[block.name];
+                            if(item.stackable) item.amount = 1;
+                            inventory.addItem(item);
+                        } else {
+                            console.log('Item not found');
+                            
                         }
                     }
-                })
+                }
                 this.blocks_broken ++;
                 if(!this.blocks.length) this.parent.nextLevel();
                 return;

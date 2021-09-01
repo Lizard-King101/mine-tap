@@ -31,12 +31,19 @@ export const blocks: {
         rarity: 80,
         texture: 'gravel.webp'
     },
-    'clay': {
+    'clay_block': {
         label: 'Clay',
-        name: 'clay',
+        name: 'clay_block',
         health: 50,
         rarity: 80,
-        texture: 'clay.webp'
+        texture: 'clay.webp',
+        drops: {
+            items: 'clay',
+            amount: {
+                min: 4,
+                max: 12
+            }
+        }
     },
     'granite': {
         label: 'Granite',

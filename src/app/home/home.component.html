@@ -5,14 +5,34 @@
         </div>
         <div class="page mining">
             <div class="page-container">
-                <h1>Mine</h1>
                 <div class="info">
-                    <div class="info">
-                        <p>Level: {{ level.name }}</p>
-                        <p>Blocks Broken: {{ level.brokenBlocks }}</p>
-                        <p>Current Block: {{ level.getTopBlocks.length ? level.getTopBlocks[0].label : '' }}</p>
-                    </div>
                     
+                    <div class="btns">
+                        <div class="btn-row">
+                            <a class="btn" routerLink="/craft">
+                                Craft
+                            </a>
+                            <a class="btn">
+                                Smelt
+                            </a>
+                        </div>
+                        <div class="btn-row">
+                            <a class="btn">
+                                something
+                            </a>
+                            <a class="btn">
+                                another
+                            </a>
+                        </div>
+                        <div class="btn-row">
+                            <a class="btn">
+                                one
+                            </a>
+                            <a class="btn">
+                                two
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="game-area" [ngStyle]="{'background-image': level.floorTexture}" #gameArea>
                     <div class="blocks">
