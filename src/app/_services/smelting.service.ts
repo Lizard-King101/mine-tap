@@ -110,11 +110,13 @@ export class SmeltingService {
     }
 
     setSmeltTimer() {
-
+        if(this.smeltItem && this.smeltItem.attributes.smelts && !this.smeltInterval) {
+            this.smeltInterval
+        }
     }
 
     setFuelTimer() {
-        if(this.fuelItem && this.fuelItem.attributes.fuel) {
+        if(this.fuelItem && this.fuelItem.attributes.fuel && !this.fuelInterval) {
             this.fuelInterval = setInterval(() => {
                 let time = this.time['fuel'];
                 if(!time) time = this.newTime('fuel');
@@ -134,7 +136,12 @@ export class SmeltingService {
                     } else {
                         this.fuelInventory.removeItem(this.fuelItem.id);
                     }
+
+
                 } else {
+                    if(this.smeltInterval) {
+                        clearInterval(this.smeltInterval);
+                    }
                     if(this.fuelInterval) {
                         clearInterval(this.fuelInterval);
                     }
