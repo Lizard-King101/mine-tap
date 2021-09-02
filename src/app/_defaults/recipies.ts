@@ -29,6 +29,18 @@ export const recipies: Recipies = {
     '1,1:clay_block': {
         item: 'clay',
         amount: 4
+    },
+    '2,2:brick,brick,brick,brick': {
+        item: 'bricks',
+        amount: 1
+    },
+    '3,3:coal,coal,coal,coal,coal,coal,coal,coal,coal': {
+        item: 'block_of_coal',
+        amount: 1
+    },
+    '1,1:block_of_coal': {
+        item: 'coal',
+        amount: 9
     }
 }
 

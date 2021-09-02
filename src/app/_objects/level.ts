@@ -53,7 +53,8 @@ export class Level {
                             if(items[block.drops.items]) {
                                 let item = Object.assign({}, items[block.drops.items]);
                                 if(block.drops.amount && item.stackable) {
-                                    item.amount = Math.floor(helpers.gaussianRandom() * (block.drops.amount.max - block.drops.amount.min)) + block.drops.amount.min;
+                                    if(block.drops.amount.max == block.drops.amount.min) item.amount = block.drops.amount.min;
+                                    else item.amount = Math.floor(helpers.gaussianRandom() * (block.drops.amount.max - block.drops.amount.min)) + block.drops.amount.min;
                                 }
                                 inventory.addItem(item);
                             } else {

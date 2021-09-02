@@ -9,6 +9,10 @@ const routes: Routes = [
   {
     path: 'craft',
     loadChildren: () => import('./crafting/crafting.module').then(m => m.CraftingPageModule)
+  },
+  {
+    path: 'smelt',
+    loadChildren: () => import('./smelting/smelting.module').then(m => m.SmeltingPageModule)
   }
 ];
 @NgModule({

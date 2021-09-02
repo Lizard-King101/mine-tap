@@ -39,7 +39,9 @@ export const items: {
             x: 1,
             y: 1
         },
-        attributes: {},
+        attributes: {
+            fuel: 600
+        },
         lore: '',
         amount: 0,
         stackable: 64,
@@ -53,7 +55,9 @@ export const items: {
             x: 1,
             y: 1
         },
-        attributes: {},
+        attributes: {
+            fuel: 7000
+        },
         lore: '',
         amount: 0,
         stackable: 64,
@@ -67,7 +71,9 @@ export const items: {
             x: 1,
             y: 1
         },
-        attributes: {},
+        attributes: {
+            fuel: 1500
+        },
         lore: '',
         amount: 0,
         stackable: 64,
@@ -109,11 +115,44 @@ export const items: {
             x: 1,
             y: 1
         },
-        attributes: {},
+        attributes: {
+            smelts: {
+                item: 'brick',
+                time: 4000
+            }
+        },
         lore: '',
         amount: 0,
         stackable: 64,
         icon: 'items/clay.webp'
+    },
+    'brick': {
+        name: 'brick',
+        label: 'Brick',
+        type: 'item',
+        size: {
+            x: 1,
+            y: 1
+        },
+        attributes: {},
+        lore: '',
+        amount: 0,
+        stackable: 64,
+        icon: 'items/brick.webp'
+    },
+    'bricks': {
+        name: 'bricks',
+        label: 'Bricks',
+        type: 'block',
+        size: {
+            x: 1,
+            y: 1
+        },
+        attributes: {},
+        lore: '',
+        amount: 0,
+        stackable: 64,
+        icon: 'blocks/bricks.webp'
     },
     'granite': {
         name: 'granite',
@@ -165,7 +204,12 @@ export const items: {
             x: 1,
             y: 1
         },
-        attributes: {},
+        attributes: {
+            smelts: {
+                item: 'iron_ingot',
+                time: 3000
+            }
+        },
         lore: '',
         amount: 0,
         stackable: 64,
@@ -207,11 +251,29 @@ export const items: {
             x: 1,
             y: 1
         },
-        attributes: {},
+        attributes: {
+            fuel: 10000
+        },
         lore: '',
         amount: 0,
         stackable: 64,
         icon: 'items/coal.webp'
+    },
+    'block_of_coal': {
+        name: 'block_of_coal',
+        label: 'Block of Coal',
+        type: 'block',
+        size: {
+            x: 1,
+            y: 1
+        },
+        attributes: {
+            fuel: 120000
+        },
+        lore: '',
+        amount: 0,
+        stackable: 64,
+        icon: 'blocks/block_of_coal.webp'
     },
     'obsidian': {
         name: 'obsidian',

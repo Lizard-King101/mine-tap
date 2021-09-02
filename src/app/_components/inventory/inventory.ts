@@ -24,7 +24,7 @@ export class InventoryComponent implements AfterViewInit{
 
     onDragOver(ev: DragEvent, x: number, y: number){
         // dragging over inventory slots
-        if(this.inventories && this.inventory && !this.inventory.noDrop) {
+        if(this.inventories && this.inventory && !this.inventory.noDrop && ev.dataTransfer) {
             let targetCell = {
                 x: x - this.inventories.pickedUp.x,
                 y: y - this.inventories.pickedUp.y
@@ -34,6 +34,23 @@ export class InventoryComponent implements AfterViewInit{
                 y: targetCell.y + this.inventories.pickedSize.y
             }
             let canPlace = true;
+            if(this.inventory.filters.length) {
+                let item = <Item>JSON.parse(ev.dataTransfer.getData('item'));
+                let inFilter = false;
+                for(let filter of this.inventory.filters) {
+                    let attrSplit = filter.split(':');
+                    if(attrSplit[0] == 'attr' && attrSplit[1]) {
+                        // filter by attribute
+                        let attribute = attrSplit[1];
+                        if(item.attributes.hasOwnProperty(attribute)) inFilter = true;
+                    } else {
+                        // filter by type
+                        if(item.type == filter) inFilter = true;
+                    }
+                }
+                if(!inFilter) canPlace = false;
+            }
+            if(!canPlace) return;
             if (targetCell.x >= 0 && targetCell.y >= 0 && max.x <= this.inventory.columns && max.y <= this.inventory.rows){
                 for (let x = 0; x < this.inventories.pickedSize.x; x ++) {
                     for (let y = 0; y < this.inventories.pickedSize.y; y ++) {

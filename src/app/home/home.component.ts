@@ -58,6 +58,13 @@ export class HomePage implements AfterViewInit{
     clickInterval?: NodeJS.Timeout; 
 
     constructor(public level: LevelService) {
+        let nums: any = {};
+        for(let i = 0; i < 5000; i++) {
+            let num = Math.floor(helpers.gaussianRandom() * 100);
+            if(nums[num]) nums[num] ++;
+            else nums[num] = 1
+        }
+        console.log(nums);
         
     }
 

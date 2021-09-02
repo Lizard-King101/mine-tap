@@ -1,0 +1,23 @@
+<div class="smelting-area">
+    <a routerLink="/" class="btn">Back</a>
+    <h1>Smelting</h1>
+
+    <div class="smelting-group">
+        <div class="smelting-input">
+            <inventory [inventory]="smelting.itemInventory"></inventory>
+            <div class="progress-bar vertical bottom">
+                <span class="pregress"></span>
+            </div>
+            <inventory [inventory]="smelting.fuelInventory"></inventory>
+        </div>
+
+        <div class="progress-bar">
+            <span class="pregress"></span>
+        </div>
+
+        <inventory [inventory]="smelting.resultInventory"></inventory>
+    </div>
+</div>
+<div class="inventory">
+    <inventory id="stash"></inventory>
+</div>

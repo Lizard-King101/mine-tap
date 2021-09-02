@@ -106,7 +106,7 @@ export class CraftingPage implements AfterViewInit, OnDestroy{
     }
 
     onDrop(ev: DragEvent, x: number, y: number) {
-        // dropping item on inventory slots
+        // dropping item on inventory slotxs
         ev.preventDefault();
         if(ev.dataTransfer) {
             let item = <Item>JSON.parse(ev.dataTransfer.getData('item'));
@@ -146,6 +146,7 @@ export class CraftingPage implements AfterViewInit, OnDestroy{
     }
 
     findRecipe() {
+        
         let xr = [];
         let yr = [];
         
@@ -156,6 +157,7 @@ export class CraftingPage implements AfterViewInit, OnDestroy{
                     yr.push(y);
                     xr.push(x);
                     let item = inv.cells[x][y];
+                    console.log(item, x, y);
                 }
             }
         }
@@ -164,6 +166,9 @@ export class CraftingPage implements AfterViewInit, OnDestroy{
         let bottom = Math.max(...yr);
         let left = Math.min(...xr);
         
+        console.log(top, right, bottom, left, xr, yr);
+        
+
         let width = right - left + 1;
         let height = bottom - top + 1;
 
@@ -180,7 +185,7 @@ export class CraftingPage implements AfterViewInit, OnDestroy{
             }
         }
 
-        let str = `${height},${width}:${craftItems.join(',')}`;
+        let str = `${width},${height}:${craftItems.join(',')}`;
         console.log('Recipe ID', str);
             
         if(recipies[str]) {
@@ -191,10 +196,7 @@ export class CraftingPage implements AfterViewInit, OnDestroy{
                     item.amount = recipe.amount
                 }
             }
-            if(!this.craftedInventory.items.length || this.craftedInventory.items[0].name != item.name) {
-                this.craftedInventory.empty();
-                this.craftedInventory.pushItem(Object.assign({}, item));
-            }
+            this.craftedInventory.pushItem(item);
         } else {
             this.craftedInventory.empty();
         }

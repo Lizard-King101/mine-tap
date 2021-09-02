@@ -41,7 +41,7 @@ export const blocks: {
             items: 'clay',
             amount: {
                 min: 4,
-                max: 12
+                max: 4
             }
         }
     },

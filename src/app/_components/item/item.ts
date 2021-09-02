@@ -293,8 +293,15 @@ export interface Item {
 export interface Attributes { 
     width?: number;
     height?: number;
+    fuel?: number;
+    smelts?: Smelts;
     damage?: number;
     bleeding?: number;
+}
+
+export interface Smelts {
+    item: string;
+    time: number;
 }
 
 export interface Context {
