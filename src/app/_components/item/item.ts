@@ -51,10 +51,10 @@ export class ItemComponent implements OnInit {
     }
 
     @HostListener('dragstart', ['$event']) onDrag(ev: DragEvent){
-        console.log('drag start', ev);
-
+        
         // starting event listener defines starting info
         if(!this.item) return false;
+        console.log('drag start', this.item);
         if(ev.dataTransfer) {
             let item = this.item;
             this.inventories.pickedSize = item.size;
@@ -143,8 +143,7 @@ export class ItemComponent implements OnInit {
                 let inventory = this.inventories.getInventory(ev.dataTransfer.getData('inventory'))
                 // remove item from old inventory
                 if(inventory && this.inventory && this.item && this.item.amount && item.amount) {
-                    if(item.id)
-                    inventory.removeItem(item.id);
+                    if(item.id) inventory.removeItem(item.id);
                     
                     // if old item + new item more than stacking limit
                     if(this.item && this.item.stackable && item.stackable && a && b && b + a > item.stackable){
@@ -225,7 +224,7 @@ export class ItemComponent implements OnInit {
 
     onContextSplit() {
         // split item stack
-        if(this.inventory && this.item && this.item.amount) {
+        if(this.inventory && this.item && this.item.amount && this.item.amount >= 2) {
             let item: Item = JSON.parse(JSON.stringify(this.item));
             if (this.inventory.findSPace(item)) {
                 item.amount = Math.ceil(this.item.amount / 2);

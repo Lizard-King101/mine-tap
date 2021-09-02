@@ -65,6 +65,8 @@ export class InventoryComponent implements AfterViewInit{
                 y: y - this.inventories.pickedUp.y
             };
             let inventory = this.inventories.getInventory(ev.dataTransfer.getData('inventory'))
+            console.log('DROP', inventory?.items, item);
+            
             if(this.inventory && inventory) {
                 if(item.id) inventory.removeItem(item.id);
                 this.inventory.pushItem(item);

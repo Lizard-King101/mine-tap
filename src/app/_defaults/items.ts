@@ -31,6 +31,20 @@ export const items: {
         stackable: 64,
         icon: 'blocks/dirt.webp'
     },
+    'stick': {
+        name: 'stick',
+        label: 'Stick',
+        type: 'item',
+        size: {
+            x: 1,
+            y: 1
+        },
+        attributes: {},
+        lore: '',
+        amount: 0,
+        stackable: 64,
+        icon: 'items/stick.webp'
+    },
     'oak_log': {
         name: 'oak_log',
         label: 'Oak Log',

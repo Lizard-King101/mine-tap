@@ -33,6 +33,7 @@ export class Inventory extends EventEmitter{
     }
 
     pushItem(item: Item) {
+        if(!item.id) item.id = this.inventories.getId();
         this.items.push(item);
         this.reCalc();
         this.emit('update-items');
@@ -50,16 +51,18 @@ export class Inventory extends EventEmitter{
     }
     
     removeItem(id: string) {
-        console.log(this.items);
         for(let i = 0; i < this.items.length; i++){
             let item = this.items[i];
             if (item.id === id) {
                 this.items.splice(i, 1);
-                console.log(this.items);
                 this.reCalc();
+                
                 this.emit('removed-item', item);
+                return;
             }
         }
+        console.log('ITEM NOT FOUND', this.id, this.items, id);
+        
     }
 
     empty() {
@@ -75,7 +78,6 @@ export class Inventory extends EventEmitter{
             for(let iitem of this.items) {
                 if(item.name == iitem.name && iitem.amount && iitem.stackable && iitem.amount < iitem.stackable) {
                     foundStackable = iitem;
-                    console.log('Stackable', foundStackable);
                     break;
                 }
             }
@@ -84,19 +86,14 @@ export class Inventory extends EventEmitter{
                     let overflow = foundStackable.amount + item.amount - foundStackable.stackable;
                     item.amount = overflow;
                     foundStackable.amount = foundStackable.stackable;
-                    console.log('overflow', foundStackable, item);
                     this.stackItem(item);
                     
                 } else {
                     foundStackable.amount = foundStackable.amount + item.amount;
-                    // console.log('fullstack', foundStackable, item.amount);
-                    
                 }
-                console.log(this.items);
                 
                 
             } else {
-                // console.log('Push new item');
                 if(item.amount < item.stackable) {
                     this.items.push(Object.assign({}, item));
                     this.reCalc();

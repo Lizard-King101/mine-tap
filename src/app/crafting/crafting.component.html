@@ -1,6 +1,3 @@
-
-
-
 <div class="crafting-area">
     <a routerLink="/" class="btn">Back</a>
     <h1>Crafting</h1>
@@ -24,7 +21,7 @@
                 <div class="cell"
                     *ngFor="let cell of row; let c = index;">
                     <ng-container *ngIf="cell && cell !== 'filled'">
-                        <item [item]="cell" [inventory]="craftingInventory" draggable="true"></item>
+                        <item [item]="cell" [inventory]="craftedInventory" draggable="true"></item>
                     </ng-container>
                 </div>
             </div>

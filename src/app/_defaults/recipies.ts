@@ -18,6 +18,10 @@ export const recipies: Recipies = {
         item: 'oak_planks',
         amount: 4
     },
+    '1,2:oak_planks,oak_planks': {
+        item: 'stick',
+        amount: 4
+    },
     '2,2:clay,clay,clay,clay': {
         item: 'clay_block',
         amount: 1
