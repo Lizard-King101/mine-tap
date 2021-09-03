@@ -32,8 +32,18 @@ export class Inventory extends EventEmitter{
         }
     }
 
-    pushItem(item: Item) {
+    pushItem(item: Item, amount?: number) {
         if(!item.id) item.id = this.inventories.getId();
+        if(amount) {
+            item = Object.assign({}, item);
+            if(item.stackable) {
+                // for(let i = 0; i < amount / item.stackable; i++) {
+                // push multiple stacks ??
+                // }
+
+                item.amount = Math.min(amount, item.stackable);
+            }
+        }
         this.items.push(item);
         this.reCalc();
         this.emit('update-items');

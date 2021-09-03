@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { InventoryComponent } from "../_components/inventory/inventory";
 import { Item } from "../_components/item/item";
+import { items } from "../_defaults/items";
 import { Inventory, InventoryOptions } from "../_objects/inventory";
 
 @Injectable()
@@ -32,7 +33,9 @@ export class Inventories {
     constructor() {
         for(let [key, options] of Object.entries(this.inventories)) {
             let inv = new Inventory(options, this);
-            this.list[key] = inv
+            this.list[key] = inv;
+            inv.pushItem(items['iron_ore'], 64);
+            inv.pushItem(items['coal'], 64);
         }
     }
 

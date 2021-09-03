@@ -78,11 +78,11 @@ export class HomePage implements AfterViewInit{
 
     onMouseDown() {
         if(!this.clickInterval) {
-            this.clickInterval = setInterval(() => {
-                if(this.block) {
-                    this.block.onDamage();
-                }
-            }, 200);
+            // this.clickInterval = setInterval(() => {
+            //     if(this.block) {
+            //         this.block.onDamage();
+            //     }
+            // }, 200);
         }
     }
 

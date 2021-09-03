@@ -185,7 +185,7 @@ export class CraftingPage implements AfterViewInit, OnDestroy{
             }
         }
 
-        let str = `${width},${height}:${craftItems.join(',')}`;
+        let str = `${height},${width}:${craftItems.join(',')}`;
         console.log('Recipe ID', str);
             
         if(recipies[str]) {

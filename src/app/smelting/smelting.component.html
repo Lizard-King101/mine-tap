@@ -6,13 +6,13 @@
         <div class="smelting-input">
             <inventory [inventory]="smelting.itemInventory"></inventory>
             <div class="progress-bar vertical bottom">
-                <span class="pregress"></span>
+                <span class="progress" [ngStyle]="{'width': smelting.fuelPercent + '%'}"></span>
             </div>
             <inventory [inventory]="smelting.fuelInventory"></inventory>
         </div>
 
         <div class="progress-bar">
-            <span class="pregress"></span>
+            <span class="progress" [ngStyle]="{'width': smelting.smeltPercent + '%'}"></span>
         </div>
 
         <inventory [inventory]="smelting.resultInventory"></inventory>

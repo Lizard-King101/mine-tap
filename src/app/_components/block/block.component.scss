@@ -15,7 +15,9 @@
         left: 50%;
         transform: translate(-50%, -50%);
         background-size: cover;
+        image-rendering: auto;
         image-rendering: crisp-edges;
+        image-rendering: pixelated;
         background-repeat: no-repeat;
         background-blend-mode: hard-light, normal;
 

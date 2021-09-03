@@ -14,3 +14,19 @@
         }
     }
 }
+
+.progress-bar {
+    display: block;
+    position: relative;
+    background-color: #cecece;
+    height: 30px;
+    min-width: 60px;
+    
+    span.progress {
+        display: block;
+        position: absolute;
+        height: 100%;
+        top: 0px;
+        background-color: #67fd80;
+    }
+}

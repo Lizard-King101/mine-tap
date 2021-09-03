@@ -33,6 +33,14 @@ export class SmeltingService {
         [key:string]: Time;
     } = { }
 
+    get fuelPercent(): number {
+        return this.currentFuelTime / this.startFuelTime * 100;
+    }
+
+    get smeltPercent(): number {
+        return  this.currentSmeltTime ? 100 - (this.currentSmeltTime / this.startSmeltTime * 100) : 0;
+    }
+
     newTime(key: string) {
         this.time[key] = {
             now: new Date().getTime(),
@@ -97,40 +105,57 @@ export class SmeltingService {
     }
 
     checkSmelting() {
-        console.log(this.smeltItem, this.fuelItem);
-        
         if(this.canSmelt) {
             console.log('CAN SMELT');
             this.setFuelTimer();
-
-        } else {
-            console.log('CANT SMELT');
-            
         }
     }
 
     setSmeltTimer() {
+        
         if(this.smeltItem && this.smeltItem.attributes.smelts && !this.smeltInterval) {
-            this.smeltInterval
+            this.newTime('smelt');
+            this.currentSmeltTime = this.startSmeltTime = this.smeltItem.attributes.smelts.time;
+            this.smeltInterval = setInterval(() => {
+                let time = this.time['smelt'];
+                time.now = new Date().getTime();
+                time.deltaTime = time.last ? time.now - time.last : 200;
+
+                if(this.currentSmeltTime - time.deltaTime > 0 && this.smeltItem) {
+                    this.currentSmeltTime -= time.deltaTime;
+
+                } else if(this.currentSmeltTime - time.deltaTime && this.smeltItem && this.smeltItem.attributes.smelts && this.smeltItem.id){
+                    this.currentSmeltTime = this.startSmeltTime = this.smeltItem.attributes.smelts.time;
+                    this.giveSmeltedItem(items[this.smeltItem.attributes.smelts.item]);
+                    if(this.smeltItem.stackable && this.smeltItem.amount != null && this.smeltItem.amount > 1) {
+                        this.smeltItem.amount--;
+                    } else {
+                        this.itemInventory.removeItem(this.smeltItem.id);
+                    }
+                }
+
+                time.last = time.now;
+            }, this.smeltItem.attributes.smelts.time / 20);
         }
     }
 
     setFuelTimer() {
         if(this.fuelItem && this.fuelItem.attributes.fuel && !this.fuelInterval) {
+            this.newTime('fuel');
+            this.setSmeltTimer();
             this.fuelInterval = setInterval(() => {
                 let time = this.time['fuel'];
-                if(!time) time = this.newTime('fuel');
                 time.now = new Date().getTime();
                 time.deltaTime = time.last ? time.now - time.last : 200;
 
-                if(this.currentFuelTime > 0) {
+                if(this.currentFuelTime - time.deltaTime > 0 && this.smeltItem) {
                     this.currentFuelTime -= time.deltaTime;
-                    console.log('Left', this.currentFuelTime);
                     
                     
-                } else if(this.fuelItem && this.fuelItem.attributes.fuel && this.fuelItem.id) {
+                } else if(this.currentFuelTime - time.deltaTime <= 0 && this.fuelItem && this.fuelItem.attributes.fuel && this.fuelItem.id) {
                     console.log('Cost Fuel');
                     this.currentFuelTime = this.startFuelTime = this.fuelItem.attributes.fuel;
+                    this.setSmeltTimer();
                     if(this.fuelItem.stackable && this.fuelItem.amount != null && this.fuelItem.amount > 1) {
                         this.fuelItem.amount--;
                     } else {
@@ -141,15 +166,26 @@ export class SmeltingService {
                 } else {
                     if(this.smeltInterval) {
                         clearInterval(this.smeltInterval);
+                        this.smeltInterval = undefined;
+                        this.currentSmeltTime = 0;
+                        this.startSmeltTime = 0;
                     }
                     if(this.fuelInterval) {
                         clearInterval(this.fuelInterval);
+                        this.fuelInterval = undefined;
                     }
-                    this.fuelInterval = undefined;
                 }
 
                 time.last = time.now;
-            }, 100);
+            }, this.fuelItem.attributes.fuel / 40);
+        }
+    }
+
+    giveSmeltedItem(item: Item) {
+        if(this.resultItem && this.resultItem.name == item.name && this.resultItem.stackable && this.resultItem.amount != null && this.resultItem.amount + 1 <= this.resultItem.stackable) {
+            this.resultItem.amount++;
+        } else {
+            this.resultInventory.pushItem(item, 1);
         }
     }
 
