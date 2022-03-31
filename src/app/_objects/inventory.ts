@@ -148,6 +148,8 @@ export class Inventory extends EventEmitter{
                 let space: any = this.findSPace(item);
                 if(space) {
                     let [c,r] = this.getXY(space.targetCell);
+                    console.log('XY', c,r);
+                    
                     item.pos = {x: c, y: r};
                     this.cells[r][c] = item;
                     for(let c = 1; c < space.fillCells.length; c ++){

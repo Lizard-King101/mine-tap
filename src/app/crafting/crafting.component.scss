@@ -1,5 +1,7 @@
 :host {
     background-color: white;
+    display: flex;
+    flex-direction: column;
 
     .crafting-area {
         padding: 10px;
@@ -57,5 +59,10 @@
             }
         }
 
+    }
+
+    .inventory {
+        flex: 1 0 0px;
+        overflow: auto;
     }
 }

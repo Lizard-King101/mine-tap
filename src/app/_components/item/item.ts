@@ -54,18 +54,23 @@ export class ItemComponent implements OnInit {
         
         // starting event listener defines starting info
         if(!this.item) return false;
-        console.log('drag start', this.item);
+        console.log('drag start', ev);
         if(ev.dataTransfer) {
             let item = this.item;
             this.inventories.pickedSize = item.size;
-
-            let layerX = <number>(<any>ev).layerX;
-            let layery = <number>(<any>ev).layerY;
+            
+            let itemRect = this.itemRef.nativeElement.getBoundingClientRect()
+            let layerX = ev.clientX - itemRect.left;
+            let layery = ev.clientY - itemRect.top;
             // calculate what cell the item was picked up at
+            
+            
             this.inventories.pickedUp = {
-                x: Math.floor(layerX / (this.inventories.getSize(item.size.x) / item.size.x)),
-                y: Math.floor(layery / (this.inventories.getSize(item.size.y) / item.size.y))
+                x: Math.floor(layerX / (itemRect.width / item.size.x)),
+                y: Math.floor(layery / (itemRect.height / item.size.y))
             }
+            console.log(itemRect, this.inventories.pickedUp);
+            
             
             this.inventories.item = this.item;
             // set drag image and data transfer 
@@ -83,6 +88,7 @@ export class ItemComponent implements OnInit {
             
             
             if(this.inventory) { 
+                this.inventories.picked_inventory = this.inventory.id;
                 ev.dataTransfer.setData('inventory', this.inventory.id);
                 console.log('DRAG START INV ID', this.inventory.id);
                 
@@ -109,6 +115,12 @@ export class ItemComponent implements OnInit {
         }
     }
 
+    // @HostListener('touchstart', ['$event']) onTouchStart(ev: PointerEvent) {
+    //     if((<HTMLElement>ev.target).offsetParent?.tagName == 'ITEM') {
+    //         console.log('TOUCH START', ev);
+    //     }
+    // }
+
     @HostListener('dragover', ['$event']) onDragOver(ev: DragEvent) {
         // stop propagation to cell element
         ev.stopPropagation();
@@ -125,6 +137,31 @@ export class ItemComponent implements OnInit {
         }
         
         if(this.inventories.itemAction !== action) this.inventories.itemAction = action;
+    }
+
+    @HostListener('dragenter', ['$event']) onDragEnter(ev: DragEvent) {
+        // stop propagation to cell element
+        ev.stopPropagation();
+        let action = '';
+        if(
+            this.item && this.inventories.item &&
+            this.item.name === this.inventories.item.name
+            && this.item.stackable && this.item.amount
+            && this.item.amount < this.item.stackable
+        ){
+            // allow stacking
+            action = 'stack';
+            ev.preventDefault();
+        }
+        
+        if(this.inventories.itemAction !== action) this.inventories.itemAction = action;
+    }
+
+    @HostListener('touchmove', ['$event']) onTouchMove(ev: PointerEvent) {
+        // if((<HTMLElement>ev.target).offsetParent?.tagName == 'ITEM') {
+        //     ev.stopPropagation()
+        //     console.log('TOUCH START', ev);
+        // }
     }
 
     @HostListener('drop', ['$event']) onDrop(ev: DragEvent) {
@@ -166,11 +203,18 @@ export class ItemComponent implements OnInit {
         }
     }
 
-    @HostListener('dragend', [ '$event']) onDragEnd() {
+    @HostListener('dragend', ['$event']) onDragEnd() {
         if(this.image)
         this.image.nativeElement.style.background = '';
         this.display = 'block';
     }
+
+    // @HostListener('touchend', ['$event']) onTouchEnd(ev: PointerEvent) {
+    //     if((<HTMLElement>ev.target).offsetParent?.tagName == 'ITEM') {
+    //         ev.stopPropagation()
+    //         console.log('ITEM TOUCH END', ev);
+    //     }
+    // }
 
     @HostListener('contextmenu', ['$event']) onContext(ev: MouseEvent) {
         console.log(ev);
@@ -197,15 +241,19 @@ export class ItemComponent implements OnInit {
         if(this.contextOpen) this.contextOpen = false;
     }
 
-    constructor(private inventories: Inventories) {
+    constructor(private inventories: Inventories, private itemRef: ElementRef<HTMLElement>) {
         
     }
 
     ngOnInit() {
         if(this.item && this.inventory) {
-            this.width = this.inventories.getSize(this.item.size.x) + 'px';
-            this.height = this.inventories.getSize(this.item.size.y) + 'px';
+            // this.width = this.inventories.getSize(this.item.size.x) + 'px';
+            // this.height = this.inventories.getSize(this.item.size.y) + 'px';
+            
+            this.width = this.item.size.x * 100 + '%';
+            this.height = this.item.size.y * 100 + '%';
             let item = this.item;
+            console.log(this.item);
 
             if(item.stackable) this.contexts.push({label: 'Split', action: this.onContextSplit.bind(this)});
             if((['case', 'bag']).indexOf(item.type) >= 0) this.contexts.push({label: 'Open', action: this.onOpen.bind(this)});

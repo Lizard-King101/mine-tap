@@ -14,6 +14,7 @@ export class Inventories {
     public indexs = [];
 
     itemAction: string = '';
+    picked_inventory?: string;
     item?: Item;
     pickedUp = {x: 0,y: 0};
     pickedSize = {x: 0,y: 0};
@@ -36,6 +37,7 @@ export class Inventories {
             this.list[key] = inv;
             inv.pushItem(items['iron_ore'], 64);
             inv.pushItem(items['coal'], 64);
+            inv.pushItem(items['brick'], 64);
         }
     }
 
